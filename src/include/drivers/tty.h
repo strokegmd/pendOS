@@ -39,6 +39,6 @@ void tty_init(void);
 tty_color_t tty_get_color(tty_color_t fg, tty_color_t bg);
 void tty_clear(void);
 void tty_putchar(char c);
-void tty_write_string(char *string);
+void tty_write_string(const char *string);
 
 #endif

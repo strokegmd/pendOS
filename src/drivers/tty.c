@@ -25,7 +25,7 @@ void tty_clear(void)
 
 void tty_putchar(char c)
 {
-    uint8_t position = cursor.y * VGA_WIDTH + cursor.x * 2;
+    uint8_t position = (cursor.y * VGA_WIDTH + cursor.x) * 2;
 
     if (c == '\n') 
     {
@@ -39,7 +39,7 @@ void tty_putchar(char c)
     }
 }
 
-void tty_write_string(char *string)
+void tty_write_string(const char *string)
 {
     for (size_t i = 0; i < strlen(string); i++)
     {
