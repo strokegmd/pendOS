@@ -10,6 +10,7 @@ class ByteStream:
     
     def write_bytes(self: 'ByteStream', bytes: bytes) -> None:
         self.bytes += bytes
+        self.write_byte(0)
 
 class Entry:
     def __init__(self: 'Entry', is_directory: bool, path: str, content: bytes) -> None:
@@ -35,12 +36,12 @@ def main() -> None:
             entry = Entry(False, f'/{path}', file.read())
             disk.write_bytes(entry.serialize())
     
-    array = f'uint8_t *disk = ['
+    array = 'uint8_t disk[] = { '
     for byte in disk.bytes:
         array += f'{hex(byte)}, '
     
     array = array[:-2]
-    array += '];'
+    array += ' };'
 
     print(array)
 

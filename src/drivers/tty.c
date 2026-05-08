@@ -1,8 +1,8 @@
 #include "../include/drivers/tty.h"
 #include "../include/lib/string.h"
 
-uint8_t *vidmem = (uint8_t*) VGA_MEMORY;
-tty_cursor_t cursor = { 0, 0, TTY_COLOR_LIGHT_GREY };
+uint16_t *vidmem = (uint16_t *) VGA_MEMORY;
+tty_cursor_t cursor = { 0, 0, TTY_COLOR_LIGHT_GRAY };
 
 void tty_init(void)
 {
@@ -16,16 +16,15 @@ tty_color_t tty_get_color(tty_color_t fg, tty_color_t bg)
 
 void tty_clear(void)
 {
-    for (size_t i = 0; i < VGA_WIDTH * VGA_HEIGHT * 2; i += 2)
+    for (size_t i = 0; i < VGA_WIDTH * VGA_HEIGHT; i++)
     {
-        vidmem[i] = ' ';
-        vidmem[i+1] = cursor.color;
+        vidmem[i] = (cursor.color << 8) | ' ';
     }
 }
 
 void tty_putchar(char c)
 {
-    uint8_t position = (cursor.y * VGA_WIDTH + cursor.x) * 2;
+    uint16_t position = (cursor.y * VGA_WIDTH + cursor.x);
 
     if (c == '\n') 
     {
@@ -34,7 +33,7 @@ void tty_putchar(char c)
     }
     else 
     {
-        vidmem[position] = c;
+        vidmem[position] = (cursor.color << 8) | c;
         cursor.x++;
     }
 }
@@ -45,4 +44,9 @@ void tty_write_string(const char *string)
     {
         tty_putchar(string[i]);
     }
+}
+
+void tty_set_color(tty_color_t fg, tty_color_t bg)
+{
+    cursor.color = tty_get_color(fg, bg);
 }

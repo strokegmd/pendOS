@@ -16,19 +16,22 @@ int printf(const char *format, ...)
 			if (format[0] == '%')
 				format++;
 
-			size_t amount = 1;
-			while (format[amount] && format[amount] != '%')
-				amount++;
+            size_t amount = 1;
 
-			if (maxrem < amount) 
+            while (format[amount] && format[amount] != '%')
+                amount++;
+                
+            if (maxrem < amount)
+                return -1;
+                
+            for (size_t i = 0; i < amount; i++)
             {
-				// TODO: Set errno to EOVERFLOW.
-				return -1;
-			}
-            
-			format += amount;
-			written += amount;
-			continue;
+                tty_putchar(format[i]);
+            }
+                
+            format += amount;
+            written += amount;
+            continue;
 		}
 
 		const char *format_begun_at = format++;
@@ -39,10 +42,7 @@ int printf(const char *format, ...)
 			char c = (char) va_arg(parameters, int);
 
 			if (!maxrem) 
-            {
-				// TODO: Set errno to EOVERFLOW.
 				return -1;
-			}
 
             tty_write_string(&c);
 			written++;
@@ -54,10 +54,7 @@ int printf(const char *format, ...)
 			size_t len = strlen(str);
 
 			if (maxrem < len) 
-            {
-				// TODO: Set errno to EOVERFLOW.
 				return -1;
-			}
 
             tty_write_string(str);
 			written += len;
@@ -68,10 +65,7 @@ int printf(const char *format, ...)
 			size_t len = strlen(format);
 
 			if (maxrem < len)
-            {
-				// TODO: Set errno to EOVERFLOW.
 				return -1;
-			}
             
             tty_write_string(format);
 			written += len;
