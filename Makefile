@@ -53,3 +53,4 @@ bin/osbuild.iso: grub/boot/osbuild.bin
 
 clean:
 	rm -f bin/*.o grub/boot/osbuild.bin bin/osbuild.iso
+    

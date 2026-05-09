@@ -8,9 +8,9 @@ typedef struct
 {
     bool is_directory;
     char *path;
-    char *content;
+    uint8_t *content;
 } voidfs_entry_t;
 
-void voidfs_read(void);
+uint8_t *voidfs_read_file(char *filepath);
 
 #endif

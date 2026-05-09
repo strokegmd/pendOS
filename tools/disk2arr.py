@@ -36,14 +36,15 @@ def main() -> None:
             entry = Entry(False, f'/{path}', file.read())
             disk.write_bytes(entry.serialize())
     
-    array = 'uint8_t disk[] = { '
+    data = '#include "../include/fs/ramfs_disk.h"\n\nuint8_t disk[] = { '
     for byte in disk.bytes:
-        array += f'{hex(byte)}, '
+        data += f'{byte},'
     
-    array = array[:-2]
-    array += ' };'
+    data = data[:-1]
+    data += ' };\n\n'
 
-    print(array)
+    with open('../src/fs/ramfs_disk.c', 'w') as file:
+        file.write(data)
 
 if __name__ == '__main__':
     main()

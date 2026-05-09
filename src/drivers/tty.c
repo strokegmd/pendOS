@@ -2,7 +2,7 @@
 #include "../include/lib/string.h"
 
 uint16_t *vidmem = (uint16_t *) VGA_MEMORY;
-tty_cursor_t cursor = { 0, 0, TTY_COLOR_LIGHT_GRAY };
+tty_cursor_t cursor = { 0, 0, TTY_COLOR_LIGHT_GREY };
 
 void tty_init(void)
 {
