@@ -3,12 +3,23 @@
 #include "include/drivers/vbe.h"
 #include "include/fs/voidfs.h"
 #include "include/gfx/ppm.h"
+#include "include/drivers/ps2/keyboard.h"
+#include "include/lib/stdio.h"
+#include "include/cpu/gdt.h"
+#include "include/cpu/idt.h"
+#include "include/cpu/system.h"
 
 void kmain_tty(multiboot_info_t *mbinfo)
 {
+    gdt_init();
+    idt_init();
+    interrupt_enable_all();
+    keyboard_init();
+
     for(;;)
     {
-
+        char key = keyboard_get_key();
+        if (key) tty_putchar(key);
     }
 }
 
@@ -16,8 +27,10 @@ void kmain_vbe(multiboot_info_t *mbinfo)
 {
     vbe_init(mbinfo);
 
-    uint8_t *data = voidfs_read_file("wallpaper.ppm");
-    ppm_render(data, 0, 0);
+    for (;;)
+    {
+        vbe_rect(0, 0, 800, 600, 0xFFFFFF);
+    }
 }
 
 void kmain(multiboot_info_t *mbinfo) 

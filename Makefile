@@ -14,6 +14,11 @@ OBJ = \
     bin/ppm.o \
     bin/ramfs_disk.o \
     bin/voidfs.o \
+	bin/system.o \
+	bin/gdt.o \
+	bin/idt.o \
+	bin/irq.o \
+	bin/keyboard.o \
     bin/kernel.o
 
 all: bin/osbuild.iso
@@ -40,6 +45,21 @@ bin/ramfs_disk.o: src/fs/ramfs_disk.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bin/voidfs.o: src/fs/voidfs.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/system.o: src/cpu/system.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/gdt.o: src/cpu/gdt.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/idt.o: src/cpu/idt.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/irq.o: src/cpu/irq.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/keyboard.o: src/drivers/ps2/keyboard.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bin/kernel.o: src/kernel.c
