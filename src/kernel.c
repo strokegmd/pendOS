@@ -8,6 +8,8 @@
 #include "include/cpu/gdt.h"
 #include "include/cpu/idt.h"
 #include "include/cpu/system.h"
+#include "include/cpu/elf.h"
+#include "include/cpu/syscalls.h"
 
 void kmain_tty(multiboot_info_t *mbinfo)
 {
@@ -15,11 +17,18 @@ void kmain_tty(multiboot_info_t *mbinfo)
     idt_init();
     interrupt_enable_all();
     keyboard_init();
+    syscall_init();
 
-    for(;;)
+    uint8_t *data = voidfs_read_file("shell.elf");
+
+    if (!elf_check_file(data))
     {
-        char key = keyboard_get_key();
-        if (key) tty_putchar(key);
+        tty_write_string("Invalid file");
+    }
+    else
+    {
+        tty_write_string("Starting");
+        elf_start(data);
     }
 }
 

@@ -64,6 +64,8 @@ void idt_init()
     SET_IDT_ENTRY(46);
     SET_IDT_ENTRY(47);
 
+    SET_IDT_ENTRY(128);
+
     outb(0x20, 0x10);
     outb(0xA0, 0x10);
     outb(0x21, 0x20);

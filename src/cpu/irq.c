@@ -41,7 +41,7 @@ bool irq_register(uint32_t idt_index, interrupt_handler_t handler)
         return false;
     }
 
-    interrupt_handlers[32 + idt_index] = handler;
+    interrupt_handlers[idt_index] = handler;
     return true;
 }
 

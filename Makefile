@@ -1,6 +1,6 @@
-CC = gcc
-AS = ./i686-elf-as
-LD = ld
+CC = i686-elf-gcc
+AS = i686-elf-as
+LD = i686-elf-ld
 
 CFLAGS = -O2 -m32 -ffreestanding
 LDFLAGS = -m elf_i386 -T link.ld
@@ -19,6 +19,8 @@ OBJ = \
 	bin/idt.o \
 	bin/irq.o \
 	bin/keyboard.o \
+	bin/elf.o \
+	bin/syscalls.o \
     bin/kernel.o
 
 all: bin/osbuild.iso
@@ -62,6 +64,12 @@ bin/irq.o: src/cpu/irq.c
 bin/keyboard.o: src/drivers/ps2/keyboard.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+bin/elf.o: src/cpu/elf.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+bin/syscalls.o: src/cpu/syscalls.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 bin/kernel.o: src/kernel.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -73,4 +81,7 @@ bin/osbuild.iso: grub/boot/osbuild.bin
 
 clean:
 	rm -f bin/*.o grub/boot/osbuild.bin bin/osbuild.iso
+
+disk2arr:
+	python3 tools/disk2arr.py
     

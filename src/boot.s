@@ -124,6 +124,8 @@ no_error_code_handler 45
 no_error_code_handler 46
 no_error_code_handler 47
 
+no_error_code_handler 128
+
 .type outsw, @function
 .global outsw
 outsw:

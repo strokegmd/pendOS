@@ -28,11 +28,11 @@ class Entry:
 
 def main() -> None:
     disk = ByteStream()
-    for path in os.listdir('../disk'):
+    for path in os.listdir('disk'):
         if '.' not in path:
             continue # TODO: directories are currently unsupported
 
-        with open(f'../disk/{path}', 'rb') as file:
+        with open(f'disk/{path}', 'rb') as file:
             entry = Entry(False, f'/{path}', file.read())
             disk.write_bytes(entry.serialize())
     
@@ -41,9 +41,9 @@ def main() -> None:
         data += f'{byte},'
     
     data = data[:-1]
-    data += ' };\n\n'
+    data += ' };\n'
 
-    with open('../src/fs/ramfs_disk.c', 'w') as file:
+    with open('src/fs/ramfs_disk.c', 'w') as file:
         file.write(data)
 
 if __name__ == '__main__':

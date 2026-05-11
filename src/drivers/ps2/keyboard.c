@@ -75,5 +75,5 @@ char keyboard_get_key()
 
 void keyboard_init()
 {
-    irq_register(1, keyboard_handler);
+    irq_register(33, keyboard_handler);
 }
